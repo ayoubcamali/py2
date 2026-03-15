@@ -11,11 +11,10 @@ class WaterError(GardenError):
 
 
 class GardenManager:
+    def __init__(self) -> None:
+        self.plants: list[str] = []
 
-    def __init__(self):
-        self.plants = []
-
-    def add_plant(self, plant_name):
+    def add_plant(self, plant_name: str) -> None:
         try:
             if plant_name == "":
                 raise PlantError("Plant name cannot be empty!")
@@ -24,41 +23,35 @@ class GardenManager:
         except PlantError as e:
             print(f"Error adding plant: {e}")
 
-    def water_plants(self):
+    def water_plants(self) -> None:
         print("Opening watering system")
         try:
             if len(self.plants) == 0:
                 raise WaterError("No plants to water!")
-
             for plant in self.plants:
                 print(f"Watering {plant} - success")
-
         except WaterError as e:
             print(f"Caught GardenError: {e}")
-
         finally:
             print("Closing watering system (cleanup)")
 
-    def check_plant_health(self, plant_name, water_level, sunlight_hours):
+    def check_plant_health(self, plant_name: str, water_level: int, sunlight_hours: int) -> None:
         try:
             if water_level < 1:
                 raise ValueError(f"Water level {water_level} is too low (min 1)")
             if water_level > 10:
                 raise ValueError(f"Water level {water_level} is too high (max 10)")
-
             if sunlight_hours < 2:
                 raise ValueError(f"Sunlight hours {sunlight_hours} is too low (min 2)")
             if sunlight_hours > 12:
                 raise ValueError(f"Sunlight hours {sunlight_hours} is too high (max 12)")
 
             print(f"{plant_name}: healthy (water: {water_level}, sun: {sunlight_hours})")
-
         except ValueError as e:
             print(f"Error checking {plant_name}: {e}")
 
 
-def test_garden_management():
-
+def test_garden_management() -> None:
     print("=== Garden Management System ===")
 
     manager = GardenManager()
